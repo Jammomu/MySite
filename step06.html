@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step5(menuZone)</title>
+    <title>Step6(sliderZone)</title>
     <script src="js/jquery.js"></script>
     <style>
         *{
@@ -23,6 +23,7 @@
             /* height: 30px; */
         }
 
+        /* topArea ------------------------------------------------ */
         #topArea > #titleZone{
             background-color: #595;
             position: relative;
@@ -47,6 +48,7 @@
             width: 100%;
         }
 
+        /* menuZone ------------------------------------------------ */
         #menuZone{
             position: relative;
             background-color: #333;
@@ -93,6 +95,60 @@
         }
         .subMenu > li > a:hover{
             background-color: #555;
+        }
+
+        /* sliderZone ------------------------------------------------ */
+        #sliderZone{
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .slider_panel{
+            display: flex;
+            position: relative;
+            /* 슬라이드시 좌표변경으로 슬라이드 표현 */
+            left: 0;
+            /* transition: left 0.5s ease; */
+        }
+        .slider_image{
+            min-width: 100%;
+        }
+        .slider_image img{
+            width: 100%;
+            display: block;
+        }
+        /* sliderControl ------------------------------------------------ */
+        .control_panel{
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            display: flex;
+        }
+        .control_btn{
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .control_btn.active{
+            background-color: #f55;
+        }
+        /* direct_btn ------------------------------------------------ */
+        .direct_btn{
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            /* 버튼을 사진의 중앙으로 보내기 */
+            transform: translateY(-50%);
+            /* 버튼 양쪽으로 보내기 */
+            justify-content: space-between;
+        }
+        .direct_btn img{
+            cursor: pointer;
         }
     </style>
 </head>
@@ -166,7 +222,27 @@
             <!-- menuZoneF -->
 
             <!-- sliderZoneS -->
-            <div id="sliderZone"></div>
+            <div id="sliderZone">
+                <div id="sub_photo_bg">
+                    <ul class="slider_panel">
+                        <li class="slider_img"><img src="img/1.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/2.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/3.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/1.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/2.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/3.jpg" alt=""></li>
+                    </ul>
+                    <div class="control_panel">
+                        <div class="control_btn active" data-index="0"></div>
+                        <div class="control_btn" data-index="1"></div>
+                        <div class="control_btn" data-index="2"></div>
+                    </div>
+                    <div class="direct_btn">
+                        <div class="left_btn"><img src="img/left_btn.png" alt=""></div>
+                        <div class="right_btn"><img src="img/right_btn.png" alt=""></div>
+                    </div>
+                </div>
+            </div>
             <!-- sliderZoneF -->
         </div>
         <!-- topAreaFinish -->
