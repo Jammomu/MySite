@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step3(구역지정)</title>
+    <title>Step4(titleZone)</title>
     <script src="js/jquery.js"></script>
     <style>
         *{
@@ -20,7 +20,30 @@
         }
         div{
             border: 1px solid #66f;
-            height: 30px;
+            /* height: 30px; */
+        }
+        #topArea > #titleZone{
+            background-color: #ad5;
+            position: relative;
+        }
+        #gnb{
+            position: absolute;
+            right: 20px;
+            top: 5px;
+        }
+        #gnb > ul{
+            overflow: hidden;
+        }
+        #gnb > ul > li{
+            float: left;
+            margin: 0 10px;
+        }
+        #logo{
+            width: 200px;
+            margin: 5px auto;
+        }
+        #logo > img{
+            width: 100%;
         }
     </style>
 </head>
@@ -29,7 +52,19 @@
         <!-- topAreaStart -->
         <div id="topArea">
             <!-- titleZoneS -->
-            <div id="titleZone"></div>
+            <div id="titleZone">
+                <div id="gnb">
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Login</a></li>
+                        <li><a href="#">Join</a></li>
+                        <li><a href="#">Mypage</a></li>
+                    </ul>
+                </div>
+                <div id="logo">
+                    <img src="img/logo.jpg" alt="">
+                </div>
+            </div>
             <!-- titleZoneF -->
             <!-- menuZoneS -->
             <div id="menuZone"></div>
