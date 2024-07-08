@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Step11(addrZone)</title>
+    <script src="js/jquery.js"></script>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        a{
+            text-decoration: none;
+            text-align: center;
+        }
+        ul, li{
+            list-style: none;
+            border: 1px solid #c55;
+        }
+        div{
+            border: 1px solid #66f;
+            /* height: 30px; */
+        }
+
+        /* topArea ------------------------------------------------ */
+        #topArea > #titleZone{
+            background-color: #595;
+            position: relative;
+        }
+        #gnb{
+            position: absolute;
+            right: 20px;
+            top: 5px;
+        }
+        #gnb > ul{
+            overflow: hidden;
+        }
+        #gnb > ul > li{
+            float: left;
+            margin: 0 10px;
+        }
+        #logo{
+            width: 200px;
+            margin: 5px auto;
+        }
+        #logo > img{
+            width: 100%;
+        }
+
+        /* sliderZone ------------------------------------------------ */
+        #sliderZone{
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .slider_panel{
+            display: flex;
+            position: relative;
+            /* 슬라이드시 좌표변경으로 슬라이드 표현 */
+            left: 0;
+            /* 슬라이드를 부드럽게 넘기는 코드 */
+            transition: left 0.5s ease;
+        }
+        .slider_img{
+            min-width: 100%;
+        }
+        .slider_img img{
+            width: 100%;
+            display: block;
+        }
+        /* sliderControl ------------------------------------------------ */
+        .control_panel{
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            display: flex;
+        }
+        .control_btn{
+            width: 10px;
+            height: 10px;
+            background-color: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .control_btn.active{
+            background-color: #f55;
+        }
+        /* direct_btn ------------------------------------------------ */
+        .direct_btn{
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            /* 버튼을 사진의 중앙으로 보내기 */
+            transform: translateY(-50%);
+            /* 버튼 양쪽으로 보내기 */
+            justify-content: space-between;
+        }
+        .direct_btn img{
+            cursor: pointer;
+        }
+
+        /* bodyArea ------------------------------------------------ */
+        #bodyArea{
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            /* height: 300px; */
+        }
+        #leftMenuZone{
+            float: left;
+            width: 20%;
+            /* height: 70%; */
+        }
+        #contentZone{
+            float: right;
+            width: 75%;
+            /* height: 70%; */
+        }
+        /* left_menu_box ------------------------------------------------ */
+        .left_menu_title{
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            display: block;
+        }
+        .left_menu{
+            font-size: 20px;
+            color: #333;
+            /* padding-left: 15px; */
+            text-align: center;
+        }
+        /* left_banner_box ------------------------------------------------ */
+        .left_banner_title{
+            font-size: 32px;
+            font-weight: 800;
+            text-align: center;
+            display: block;
+        }
+        .left_banner{
+            font-size: 20px;
+            color: #333;
+            /* padding-left: 15px; */
+            text-align: center;
+        }
+
+        /* contentZone ------------------------------------------------ */
+        .content_title{
+            font-size: 32px;
+            padding: 10px 30px;
+            border-bottom: 3px solid #f55;
+        }
+        .album{
+            border-top: 1px solid #393;
+        }
+        .album td{
+            padding: 5px;
+            border-bottom: 1px solid #393;
+        }
+
+        /* hotMenuZone ------------------------------------------------ */
+        #hotMenu{
+            width: 100%;
+            background-color: #f5f5f5;
+            border-top: 1px solid #e7e7e7;
+            border-bottom: 1px solid #e7e7e7;
+        }
+        #hotMenu > ul{
+            width: 438px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        #hotMenu li{
+            float: left;
+            padding: 1px 6px;
+        }
+
+        /* addrZone ------------------------------------------------ */
+        #addrZone{
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .addr{
+            overflow: hidden;
+            background-color: #e8e8e8;
+            color: #828282;
+            font-size: 14px;
+        }
+        .addrInfo{
+            float: left;
+            display: inline;
+        }
+    </style>
+
+    <script>
+        $(function(){
+            const $sliderPanel = $('.slider_panel');
+            const $controlBtns = $('.control_btn');
+            const $leftBtn = $('.left_btn img');
+            const $rightBtn = $('.right_btn img');
+
+            let currentIndex = 0;
+            // 사진을 왼쪽으로 이동 시키는 함수
+            function updateSlider(index){
+                $sliderPanel.css('left', `-${index * 100}%`);
+                $controlBtns.removeClass('active');
+                $controlBtns.eq(index).addClass('active');
+            }
+
+            // 왼쪽 버튼 클릭 이벤트
+            $leftBtn.on('click', function(){
+                currentIndex--;
+                if(currentIndex < 0){
+                    currentIndex = 0;
+                }
+                updateSlider(currentIndex);
+            });
+
+            // 오른쪽 버튼 클릭 이벤트
+            $rightBtn.on('click', function(){
+                currentIndex++;
+                if(currentIndex > 5){
+                    currentIndex = 5;
+                }
+                updateSlider(currentIndex);
+            });
+
+            // 이미지 아래 점을 클릭 시 해당 사진으로 바로 이동
+            $controlBtns.on('click', function(){
+                currentIndex = parseInt($(this).data('index'));
+                updateSlider(currentIndex);
+            });
+
+            // 페이지 시작 시 자동으로 3초 마다 넘어가는 이미지
+            setInterval(function(){
+                currentIndex = (currentIndex + 1) % $controlBtns.length;
+                updateSlider(currentIndex);
+            }, 3000);
+        });
+    </script>
+    <script>
+        function includeHTML(ctrl, page, callback){
+            $.get(page, function(data){ // .get(파일주소)를 넣으면 함수안에 지정한 데이터를 가져온다.
+                $('#' + ctrl).html(data);
+                if(callback){ // callback = 함수를 호출
+                    callback();
+                }
+            });
+        }
+    </script>
+    <script>
+        function initSlider() {
+            const $sliderPanel = $('.slider_panel');
+            const $controlBtns = $('.control_btn');
+            const $leftBtn     = $('.left_btn img');
+            const $rightBtn    = $('.right_btn img');
+            let currentIndex = 0;
+            function updateSlider(index){
+                $sliderPanel.css('left', `-${index * 100}%`);
+                $controlBtns.removeClass('active');
+                $controlBtns.eq(index).addClass('active');
+            }
+            $leftBtn.on('click',function(){
+                currentIndex--;
+                if(currentIndex<0){
+                    currentIndex=0;
+                }
+                updateSlider(currentIndex);
+            });
+            $rightBtn.on('click', function(){
+                currentIndex++;
+                if(currentIndex>2){
+                    currentIndex=2;
+                }
+                updateSlider(currentIndex);
+            });
+            $controlBtns.on('click',function(){
+                currentIndex = parseInt($(this).data('index'));
+                updateSlider(currentIndex);
+            });
+            setInterval(function(){
+                currentIndex=(currentIndex+1) % $controlBtns.length;
+                updateSlider(currentIndex);
+            }, 3000);
+        }
+    </script>
+
+반응
+
+댓글
+
+
+
+
+
+
+
+
+</head>
+<body>
+    <div id="site">
+        <!-- topAreaStart------------------------------------------------ -->
+        <div id="topArea">
+            <!-- titleZone------------------------------------------------ -->
+            <div id="titleZonePage"></div>
+            <script>
+                $(function(){
+                    includeHTML('titleZonePage', 'titleZonePage.html', null); // callback을 했지만 현재 null이기 때문에 보이지 않음
+                });
+            </script>
+
+            <!-- menuZone------------------------------------------------ -->
+            <div id="menuZonePage"></div>
+            <script>
+                $(function(){
+                    includeHTML('menuZonePage', 'menuZonePage.html', null);
+                });
+            </script>
+
+            <!-- sliderZone------------------------------------------------ -->
+            <div id="sliderZonePage"></div>
+            <script>
+                $(function(){
+                    includeHTML('sliderZonePage', 'sliderZonePage.html', initSlider);
+                });
+            </script>
+        </div>
+        <!-- topAreaFinish -->
+        
+        <!-- bodyAreaStart------------------------------------------------ -->
+        <div id="bodyArea">
+            <!-- leftMenuZone------------------------------------------------ -->
+            <div id="page_4_menu"></div>
+            <script>
+                $(function(){
+                    includeHTML('page_4_menu', 'page_4_menu.html', initSlider);
+                });
+            </script>
+            <!-- contentZone------------------------------------------------ -->
+            <div id="contentZone">
+                <div class="content_title">특별함</div>
+                <div id="article" class="content">
+                    <h3>사계절 낭만이 있는 곳에서 행복한 추억을 많이 만들어 가세요.</h3>
+                    <table class="album">
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <img src="img/20151227165633_1192539526.jpg" width="160px" alt="">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa ullam voluptatibus, alias enim voluptatem ut possimus incidunt vel rem, dolor, sapiente laborum! Quia, veritatis? Praesentium dolorum doloribus deleniti consectetur at.
+                                    <div align="right">[<font style="color:#878787;font-size:12px;">작성일자 : 2015-12-27</font>, <font style="color:#878787; font-size:12px;">조회수 : 51</font>]</div>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <img src="img/20151227165633_1192539526.jpg" width="160px" alt="">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa ullam voluptatibus, alias enim voluptatem ut possimus incidunt vel rem, dolor, sapiente laborum! Quia, veritatis? Praesentium dolorum doloribus deleniti consectetur at.
+                                    <div align="right">[<font style="color:#878787;font-size:12px;">작성일자 : 2015-12-27</font>, <font style="color:#878787; font-size:12px;">조회수 : 51</font>]</div>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <a href="#">
+                                    <img src="img/20151227165633_1192539526.jpg" width="160px" alt="">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#">
+                                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Culpa ullam voluptatibus, alias enim voluptatem ut possimus incidunt vel rem, dolor, sapiente laborum! Quia, veritatis? Praesentium dolorum doloribus deleniti consectetur at.
+                                    <div align="right">[<font style="color:#878787;font-size:12px;">작성일자 : 2015-12-27</font>, <font style="color:#878787; font-size:12px;">조회수 : 51</font>]</div>
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- bodyAreaFinish -->
+        
+        <!-- bottomArea------------------------------------------------ -->
+        <div id="bottomArea">
+            <!-- hotMenuZone------------------------------------------------ -->
+            <div id="hotMenuZone">
+                <div id="hotMenu">
+                    <ul>
+                        <li><a href="#">캠핑장소개</a></li>
+                        <li><a href="#">이용약관</a></li>
+                        <li><a href="#">개인정보보호정책</a></li>
+                        <li><a href="#">이메일수집거부</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- addrZone------------------------------------------------ -->
+            <div id="addrZone">
+                <div class="addr">
+                    <div class="addrInfo">
+                        <h4>About Us</h4>
+                        <address>상호명 : 000캠핑장&nbsp;&nbsp; 주소 : 경기도 00군 000읍 000-00 &nbsp;&nbsp; 전화번호 : 
+                            <span class="eng_num bold">070-0000-0000</span><br>
+                            대표 : 000 &nbsp;&nbsp; 사업자번호 : 
+                            <span class="eng_num bold">000-0000-0000</span> 
+                            &nbsp;&nbsp; 통신판매업번호 :
+                            <span class="eng_num bold">000-0000-0000</span><br>
+                            개인정보책임자 : 000 &nbsp;&nbsp; 이메일 : 
+                            <span class="eng_num bold">000000@0000.000</span>
+                        </address>
+                    </div>
+                    <div class="addrinfo">
+                        <h4>Customer</h4>
+                        <address>전화번호 : 
+                            <span class="eng_num bold">070-0000-0000</span> 
+                            &nbsp;&nbsp; 휴대폰번호 : 
+                            <span class="eng_num bold">010-0000-0000</span><br>
+                            계좌번호 : 
+                            <span class="bold">농협</span> 
+                            <span class="eng_num bold">000-0000-0000 000</span> 
+                            <span class="bold">예금주 : 000</span>
+                        </address>
+                    </div>
+                    <ul class="addrinfo">
+                        <h4>SNS link</h4>
+                        <li><a href="#" title="페이스북"><i class="fa fa-facebook-square fa-2x"></i></a></li>
+                        <li><a href="#" title="유튜브"><i class="fa fa-youtube-square fa-2x"></i></a></li>
+                        <li><a href="#" title="인스타그램"><i class="fa fa-instagram fa-2x"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- bottomAreaF -->
+    </div>
+</body>
+</html>
