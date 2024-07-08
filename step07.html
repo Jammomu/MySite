@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Step6(sliderZone)</title>
+    <title>Step7(sliderZone_javascript)</title>
     <script src="js/jquery.js"></script>
     <style>
         *{
@@ -56,7 +56,7 @@
         .mainMenu{
             display: flex;
             /* background-color: #333; */
-            width: 700px;
+            width: 687px;
             margin: 0 auto;
             padding: 0;
         }
@@ -110,12 +110,13 @@
             position: relative;
             /* 슬라이드시 좌표변경으로 슬라이드 표현 */
             left: 0;
-            /* transition: left 0.5s ease; */
+            /* 슬라이드를 부드럽게 넘기는 코드 */
+            transition: left 0.5s ease;
         }
-        .slider_image{
+        .slider_img{
             min-width: 100%;
         }
-        .slider_image img{
+        .slider_img img{
             width: 100%;
             display: block;
         }
@@ -151,6 +152,53 @@
             cursor: pointer;
         }
     </style>
+
+    <script>
+        $(function(){
+            const $sliderPanel = $('.slider_panel');
+            const $controlBtns = $('.control_btn');
+            const $leftBtn = $('.left_btn img');
+            const $rightBtn = $('.right_btn img');
+
+            let currentIndex = 0;
+            // 사진을 왼쪽으로 이동 시키는 함수
+            function updateSlider(index){
+                $sliderPanel.css('left', `-${index * 100}%`);
+                $controlBtns.removeClass('active');
+                $controlBtns.eq(index).addClass('active');
+            }
+
+            // 왼쪽 버튼 클릭 이벤트
+            $leftBtn.on('click', function(){
+                currentIndex--;
+                if(currentIndex < 0){
+                    currentIndex = 0;
+                }
+                updateSlider(currentIndex);
+            });
+
+            // 오른쪽 버튼 클릭 이벤트
+            $rightBtn.on('click', function(){
+                currentIndex++;
+                if(currentIndex > 5){
+                    currentIndex = 5;
+                }
+                updateSlider(currentIndex);
+            });
+
+            // 이미지 아래 점을 클릭 시 해당 사진으로 바로 이동
+            $controlBtns.on('click', function(){
+                currentIndex = parseInt($(this).data('index'));
+                updateSlider(currentIndex);
+            });
+
+            // 페이지 시작 시 자동으로 3초 마다 넘어가는 이미지
+            setInterval(function(){
+                currentIndex = (currentIndex + 1) % $controlBtns.length;
+                updateSlider(currentIndex);
+            }, 3000);
+        });
+    </script>
 </head>
 <body>
     <div id="site">
@@ -228,9 +276,9 @@
                         <li class="slider_img"><img src="img/1.jpg" alt=""></li>
                         <li class="slider_img"><img src="img/2.jpg" alt=""></li>
                         <li class="slider_img"><img src="img/3.jpg" alt=""></li>
-                        <li class="slider_img"><img src="img/1.jpg" alt=""></li>
+                        <!-- <li class="slider_img"><img src="img/1.jpg" alt=""></li>
                         <li class="slider_img"><img src="img/2.jpg" alt=""></li>
-                        <li class="slider_img"><img src="img/3.jpg" alt=""></li>
+                        <li class="slider_img"><img src="img/3.jpg" alt=""></li> -->
                     </ul>
                     <div class="control_panel">
                         <div class="control_btn active" data-index="0"></div>
