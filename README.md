@@ -95,3 +95,4 @@ Link: [Google][googlelink]
 [googlelink]: https://google.com "Go google"
 
 
+[Google](https://google.com, "google link")
